@@ -1,0 +1,6 @@
+services:
+  backend:
+    image: fest-backend:0.1
+    build:
+      context: ./backend
+      target: stage1

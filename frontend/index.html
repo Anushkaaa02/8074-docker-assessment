@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b2a">
+  <title>FestPass | Event Registration</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172625;
+      --muted: #62706b;
+      --paper: #f5f4ed;
+      --surface: #fffefa;
+      --line: #d9dfd7;
+      --green: #176b53;
+      --green-dark: #104c3c;
+      --coral: #e27154;
+      --focus: #e6b449;
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 12% 8%, rgba(230, 180, 73, .16), transparent 27rem),
+        linear-gradient(135deg, #f8f6ee, #eaf0e8 60%, #f5eee4);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.2rem max(1.25rem, calc((100vw - 1060px) / 2));
+      border-bottom: 1px solid rgba(23, 38, 37, .13);
+    }
+    .brand { display: flex; align-items: center; gap: .75rem; font-weight: 800; }
+    .brand-mark {
+      display: grid;
+      width: 2.5rem;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 9px;
+      color: #fff;
+      background: var(--green);
+      font-size: 1.1rem;
+    }
+    .regno { color: var(--muted); font-size: .9rem; }
+    main {
+      width: min(1060px, calc(100% - 2.5rem));
+      margin: clamp(2.5rem, 7vw, 5rem) auto;
+    }
+    .intro { max-width: 700px; margin-bottom: 2rem; }
+    .eyebrow {
+      margin: 0 0 .7rem;
+      color: var(--green);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 14ch;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 500;
+      line-height: 1.02;
+    }
+    .intro p:last-child { max-width: 55ch; color: var(--muted); line-height: 1.65; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr); gap: 1.2rem; }
+    .panel {
+      padding: clamp(1.1rem, 3vw, 1.7rem);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 14px 36px rgba(23, 38, 37, .06);
+    }
+    h2 { margin: 0 0 1.1rem; font-size: 1.25rem; }
+    form { display: grid; gap: .95rem; }
+    label { display: grid; gap: .4rem; font-size: .9rem; font-weight: 700; }
+    input {
+      width: 100%;
+      min-height: 2.8rem;
+      padding: .65rem .75rem;
+      border: 1px solid #bdc9c0;
+      border-radius: 5px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+    }
+    input:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+    button {
+      min-height: 2.9rem;
+      padding: .7rem 1rem;
+      border: 0;
+      border-radius: 5px;
+      color: #fff;
+      background: var(--green);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    button:hover { background: var(--green-dark); }
+    button:disabled { opacity: .65; cursor: wait; }
+    .status { min-height: 1.5rem; margin: .2rem 0 0; color: var(--muted); font-size: .9rem; }
+    .status[data-state="error"] { color: #a53d2b; }
+    .status[data-state="success"] { color: var(--green-dark); }
+    .list { display: grid; gap: .7rem; margin: 0; padding: 0; list-style: none; }
+    .registration { padding: .8rem 0; border-top: 1px solid var(--line); }
+    .registration strong { display: block; margin-bottom: .2rem; }
+    .registration span, .empty { color: var(--muted); font-size: .9rem; }
+    .service-state { display: flex; align-items: center; gap: .5rem; color: var(--muted); font-size: .85rem; }
+    .dot { width: .55rem; aspect-ratio: 1; border-radius: 50%; background: #a5aaa4; }
+    .dot[data-state="ok"] { background: #2b946e; }
+    @media (max-width: 720px) {
+      header { padding-inline: 1.25rem; }
+      .layout { grid-template-columns: 1fr; }
+      main { margin-top: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="brand-mark" aria-hidden="true">F</span><span>FestPass</span></div>
+    <span class="regno">REGNO 8074</span>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">Make room for a good time</p>
+      <h1 id="page-title">Your next favorite event starts here.</h1>
+      <p>Register your place and keep your event details together. Your registration is saved with FestPass.</p>
+      <div class="service-state"><span id="service-dot" class="dot" aria-hidden="true"></span><span id="service-state">Checking registration service</span></div>
+    </section>
+    <div class="layout">
+      <section class="panel" aria-labelledby="form-title">
+        <h2 id="form-title">Register for an event</h2>
+        <form id="registration-form">
+          <label for="name">Your name<input id="name" name="name" autocomplete="name" maxlength="120" required></label>
+          <label for="email">Email address<input id="email" name="email" type="email" autocomplete="email" maxlength="254" required></label>
+          <label for="event">Event name<input id="event" name="event" maxlength="160" required></label>
+          <button id="submit-button" type="submit">Complete registration</button>
+          <p id="form-status" class="status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+      <section class="panel" aria-labelledby="list-title">
+        <h2 id="list-title">Recent registrations</h2>
+        <ul id="registration-list" class="list"><li class="empty">Loading registrations...</li></ul>
+      </section>
+    </div>
+  </main>
+  <script>
+    const form = document.querySelector("#registration-form");
+    const formStatus = document.querySelector("#form-status");
+    const submitButton = document.querySelector("#submit-button");
+    const registrationList = document.querySelector("#registration-list");
+    const serviceState = document.querySelector("#service-state");
+    const serviceDot = document.querySelector("#service-dot");
+
+    async function loadRegistrations() {
+      const response = await fetch("/api/registrations");
+      if (!response.ok) throw new Error("Registration service is unavailable.");
+      const data = await response.json();
+      registrationList.replaceChildren();
+      if (data.registrations.length === 0) {
+        const empty = document.createElement("li");
+        empty.className = "empty";
+        empty.textContent = "No registrations yet.";
+        registrationList.append(empty);
+        return;
+      }
+      for (const registration of data.registrations) {
+        const item = document.createElement("li");
+        item.className = "registration";
+        const title = document.createElement("strong");
+        title.textContent = registration.event;
+        const details = document.createElement("span");
+        details.textContent = registration.name;
+        item.append(title, details);
+        registrationList.append(item);
+      }
+    }
+
+    async function checkService() {
+      try {
+        const response = await fetch("/api/health");
+        if (!response.ok) throw new Error("unavailable");
+        serviceState.textContent = "Registration service connected";
+        serviceDot.dataset.state = "ok";
+      } catch {
+        serviceState.textContent = "Registration service unavailable";
+        serviceDot.dataset.state = "error";
+      }
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      submitButton.disabled = true;
+      formStatus.dataset.state = "";
+      formStatus.textContent = "Saving your registration...";
+      const registration = Object.fromEntries(new FormData(form));
+      try {
+        const response = await fetch("/api/registrations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(registration),
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Registration could not be saved.");
+        form.reset();
+        formStatus.dataset.state = "success";
+        formStatus.textContent = `Registration saved for ${result.registration.event}.`;
+        await loadRegistrations();
+      } catch (error) {
+        formStatus.dataset.state = "error";
+        formStatus.textContent = error.message;
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+
+    checkService();
+    loadRegistrations().catch(() => {
+      registrationList.replaceChildren();
+      const unavailable = document.createElement("li");
+      unavailable.className = "empty";
+      unavailable.textContent = "Registrations are unavailable right now.";
+      registrationList.append(unavailable);
+    });
+  </script>
+</body>
+</html>
